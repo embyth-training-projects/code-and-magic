@@ -1,0 +1,24 @@
+{
+  "name": "code-and-magick",
+  "version": "0.1.0",
+  "description": "Studying JS project",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:embyth/code-and-magic.git"
+  },
+  "bugs": {
+    "url": "https://github.com/embyth/code-and-magic/issues"
+  },
+  "devDependencies": {
+    "eslint": "6.3.0",
+    "eslint-config-htmlacademy": "0.5.2"
+  },
+  "license": "MIT",
+  "dependencies": {},
+  "scripts": {
+    "test": "eslint js/"
+  },
+  "engines": {
+    "node": "8.11"
+  }
+}

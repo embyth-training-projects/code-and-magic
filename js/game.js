@@ -262,22 +262,22 @@ window.Game = (function () {
    * @return {Object}
    */
   LevelsInitialize[Level.INTRO] = function (state) {
-    state.objects.push(
+    state.objects.push({
       // Установка персонажа в начальное положение. Он стоит в крайнем левом
       // углу экрана, глядя вправо. Скорость перемещения персонажа на этом
       // уровне равна 2px за кадр.
-      {
-        direction: Direction.RIGHT,
-        height: window.GameConstants.Wizard.getHeight(window.GameConstants.Wizard.width),
-        speed: window.GameConstants.Wizard.speed,
-        sprite: SpriteMap[ObjectType.ME],
-        state: ObjectState.OK,
-        type: ObjectType.ME,
-        width: window.GameConstants.Wizard.width,
-        x: window.GameConstants.Wizard.getX(WIDTH),
-        y: window.GameConstants.Wizard.getY(HEIGHT)
-      }
-    );
+
+      direction: Direction.RIGHT,
+      height: window.GameConstants.Wizard.getHeight(window.GameConstants.Wizard.width),
+      speed: window.GameConstants.Wizard.speed,
+      sprite: SpriteMap[ObjectType.ME],
+      state: ObjectState.OK,
+      type: ObjectType.ME,
+      width: window.GameConstants.Wizard.width,
+      x: window.GameConstants.Wizard.getX(WIDTH),
+      y: window.GameConstants.Wizard.getY(HEIGHT)
+
+    });
 
     return state;
   };

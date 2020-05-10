@@ -112,6 +112,7 @@ initSetupDialog();
 var setupOpenButton = document.querySelector('.setup-open');
 var setupWindow = document.querySelector('.setup');
 var setupCloseButton = setupWindow.querySelector('.setup-close');
+var setupNameInput = setupWindow.querySelector('.setup-user-name');
 
 // Коды кнопок
 var ESC_KEYCODE = 27;
@@ -158,4 +159,14 @@ setupCloseButton.addEventListener('keydown', function (evt) {
   if (evt.keyCode === ENTER_KEYCODE) {
     closePopup();
   }
+});
+
+// Обработчик события при фокусе поля ввода имени убирает возможность закрыть окно кнопкой ESC
+setupNameInput.addEventListener('focus', function () {
+  document.removeEventListener('keydown', popupEscPressHandler);
+});
+
+// Обработчик события при выходе из фокуса поля ввода имени добавляет возможность закрыть окно кнопкой ESC
+setupNameInput.addEventListener('blur', function () {
+  document.addEventListener('keydown', popupEscPressHandler);
 });

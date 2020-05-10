@@ -1,20 +1,5 @@
 'use strict';
 
-// Показываем блок setup при клике на аватарку и закрытие на крестик
-var setupOpenButton = document.querySelector('.setup-open');
-var setupWindow = document.querySelector('.setup');
-var setupCloseButton = document.querySelector('.setup-close');
-
-setupOpenButton.addEventListener('click', function (event) {
-  event.preventDefault();
-  setupWindow.classList.remove('hidden');
-});
-
-setupCloseButton.addEventListener('click', function (event) {
-  event.preventDefault();
-  setupWindow.classList.add('hidden');
-});
-
 // Количество персонажей
 var NUMBER_OF_CHARACTERS = 4;
 
@@ -122,3 +107,55 @@ var createFragment = function (characters) {
 
 // Запускаем окно похожих волшебников
 initSetupDialog();
+
+// Заносим элементы в переменные
+var setupOpenButton = document.querySelector('.setup-open');
+var setupWindow = document.querySelector('.setup');
+var setupCloseButton = setupWindow.querySelector('.setup-close');
+
+// Коды кнопок
+var ESC_KEYCODE = 27;
+var ENTER_KEYCODE = 13;
+
+// Обработчик нажатия кнопки ESC
+var popupEscPressHandler = function (evt) {
+  if (evt.keyCode === ESC_KEYCODE) {
+    closePopup();
+  }
+};
+
+// Открывашка окна
+var openPopup = function () {
+  setupWindow.classList.remove('hidden');
+  document.addEventListener('keydown', popupEscPressHandler); // Добавляем обработчик события при нажатии ESC
+};
+
+// Закрывашка окна
+var closePopup = function () {
+  setupWindow.classList.add('hidden');
+  document.removeEventListener('keydown', popupEscPressHandler); // Удаляем обработчик события при нажатии ESC
+};
+
+// Обработчик события при клике на аватарку (кнопку)
+setupOpenButton.addEventListener('click', function () {
+  openPopup();
+});
+
+// Обработчик события при нажатии кнопку на клавиатуре (Enter) когда аватарка в фокусе
+setupOpenButton.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === ENTER_KEYCODE) {
+    openPopup();
+  }
+});
+
+// Обработчик события при клике на крестик (кнопку закрытия)
+setupCloseButton.addEventListener('click', function () {
+  closePopup();
+});
+
+// Обработчик события при нажатии на кнопку на клавиатуре (Enter) когда крестик в фокусе
+setupCloseButton.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === ENTER_KEYCODE) {
+    closePopup();
+  }
+});

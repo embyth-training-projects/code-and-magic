@@ -44,8 +44,41 @@ var charactersData = {
     'blue',
     'yellow',
     'green'
+  ],
+
+  fireballColors: [
+    '#ee4830',
+    '#30a8ee',
+    '#5ce6c0',
+    '#e848d5',
+    '#e6e848'
   ]
 };
+
+// Кастомные сообщение об ошибках валидации
+var validityMessages = {
+  TOO_SHORT: 'Имя персонажа должно состоять не менее чем из 2-х символов',
+  TOO_LONG: 'Имя персонажа не должно превышать 25-ти символов',
+  VALUE_MISSING: 'Дайте имя вашему персонажу'
+};
+
+// Заносим элементы в переменные
+var setupOpenButton = document.querySelector('.setup-open');
+var setupWindow = document.querySelector('.setup');
+var setupCloseButton = setupWindow.querySelector('.setup-close');
+var setupNameInput = setupWindow.querySelector('.setup-user-name');
+
+// Коды кнопок
+var keyCode = {
+  ESC: 27,
+  ENTER: 13
+};
+
+// Элементы кастомизации персонажа
+var wizardElementSetup = setupWindow.querySelector('.setup-wizard');
+var wizardCoat = wizardElementSetup.querySelector('.wizard-coat');
+var wizardEyes = wizardElementSetup.querySelector('.wizard-eyes');
+var fireballElement = setupWindow.querySelector('.setup-fireball-wrap');
 
 // Функция возвращает случайное число в заданном интервале
 var getRandomNumber = function (min, max) {
@@ -108,19 +141,9 @@ var createFragment = function (characters) {
 // Запускаем окно похожих волшебников
 initSetupDialog();
 
-// Заносим элементы в переменные
-var setupOpenButton = document.querySelector('.setup-open');
-var setupWindow = document.querySelector('.setup');
-var setupCloseButton = setupWindow.querySelector('.setup-close');
-var setupNameInput = setupWindow.querySelector('.setup-user-name');
-
-// Коды кнопок
-var ESC_KEYCODE = 27;
-var ENTER_KEYCODE = 13;
-
 // Обработчик нажатия кнопки ESC
 var popupEscPressHandler = function (evt) {
-  if (evt.keyCode === ESC_KEYCODE) {
+  if (evt.keyCode === keyCode.ESC) {
     closePopup();
   }
 };
@@ -144,7 +167,7 @@ setupOpenButton.addEventListener('click', function () {
 
 // Обработчик события при нажатии кнопку на клавиатуре (Enter) когда аватарка в фокусе
 setupOpenButton.addEventListener('keydown', function (evt) {
-  if (evt.keyCode === ENTER_KEYCODE) {
+  if (evt.keyCode === keyCode.ENTER) {
     openPopup();
   }
 });
@@ -156,7 +179,7 @@ setupCloseButton.addEventListener('click', function () {
 
 // Обработчик события при нажатии на кнопку на клавиатуре (Enter) когда крестик в фокусе
 setupCloseButton.addEventListener('keydown', function (evt) {
-  if (evt.keyCode === ENTER_KEYCODE) {
+  if (evt.keyCode === keyCode.ENTER) {
     closePopup();
   }
 });
@@ -171,13 +194,7 @@ setupNameInput.addEventListener('blur', function () {
   document.addEventListener('keydown', popupEscPressHandler);
 });
 
-// Кастомные сообщение об ошибках валидации
-var validityMessages = {
-  TOO_SHORT: 'Имя персонажа должно состоять не менее чем из 2-х символов',
-  TOO_LONG: 'Имя персонажа не должно превышать 25-ти символов',
-  VALUE_MISSING: 'Дайте имя вашему персонажу'
-};
-
+// Обработчик события корректности данных ввода
 setupNameInput.addEventListener('invalid', function () {
   if (setupNameInput.validity.tooShort) {
     setupNameInput.setCustomValidity(validityMessages.TOO_SHORT);
@@ -194,4 +211,40 @@ setupNameInput.addEventListener('input', function (evt) {
   var target = evt.target;
 
   target.setCustomValidity('');
+});
+
+// Меняет цвет плаща у персонажа
+var wizardCoatClickHandler = function () {
+  var wizardCoatColor = charactersData.wizardCoatColors[getRandomNumber(0, charactersData.wizardCoatColors.length)];
+
+  wizardCoat.style.fill = wizardCoatColor;
+  setupWindow.querySelector('[name="coat-color"]').value = wizardCoatColor;
+};
+
+wizardCoat.addEventListener('click', function () {
+  wizardCoatClickHandler();
+});
+
+// Меняет цвет глаз у персонажа
+var wizardEyeClickHandler = function () {
+  var wizardEyesColor = charactersData.wizardEyesColors[getRandomNumber(0, charactersData.wizardEyesColors.length)];
+
+  wizardEyes.style.fill = wizardEyesColor;
+  setupWindow.querySelector('[name="eyes-color"]').value = wizardEyesColor;
+};
+
+wizardEyes.addEventListener('click', function () {
+  wizardEyeClickHandler();
+});
+
+// Меняет цвет фаербола
+var fireballClickHandler = function () {
+  var fireballColor = charactersData.fireballColors[getRandomNumber(0, charactersData.fireballColors.length)];
+
+  fireballElement.style.background = fireballColor;
+  setupWindow.querySelector('[name="fireball-color"]').value = fireballColor;
+};
+
+fireballElement.addEventListener('click', function () {
+  fireballClickHandler();
 });

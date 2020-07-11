@@ -1,11 +1,16 @@
 'use strict';
 
 (function () {
+  window.setup = document.querySelector('.setup');
   // Заносим элементы в переменные
-  var setupWindow = document.querySelector('.setup');
   var setupOpenButton = document.querySelector('.setup-open');
-  var setupCloseButton = setupWindow.querySelector('.setup-close');
+  var setupCloseButton = window.setup.querySelector('.setup-close');
   var setupNameInput = document.querySelector('.setup-user-name');
+  var dialogHandle = window.setup.querySelector('.upload');
+  var startPosition = {
+    x: window.setup.style.left,
+    y: window.setup.style.top
+  };
 
   // Закрыть окно при нажатии кнопки Enter
   var closePopupOnKeyDown = function (evt) {
@@ -24,7 +29,7 @@
 
   // Открывашка окна
   var openPopup = function () {
-    setupWindow.classList.remove('hidden');
+    window.setup.classList.remove('hidden');
 
     // Удаляем обработчики событий
     setupOpenButton.removeEventListener('keydown', openPopupOnKeyDown);
@@ -33,20 +38,25 @@
     document.addEventListener('keydown', closePopupOnPressEsc);
     setupCloseButton.addEventListener('click', closePopup);
     setupCloseButton.addEventListener('keydown', closePopupOnKeyDown);
+    dialogHandle.addEventListener('mousedown', window.moveSetupWindow);
   };
 
   // Закрывашка окна
   var closePopup = function () {
-    setupWindow.classList.add('hidden');
+    window.setup.classList.add('hidden');
 
     // Удаляем обработчики событий
     document.removeEventListener('keydown', closePopupOnPressEsc);
     setupCloseButton.removeEventListener('click', closePopup);
     setupCloseButton.removeEventListener('keydown', closePopupOnKeyDown);
+    dialogHandle.removeEventListener('mousedown', window.moveSetupWindow);
 
     // Добавляем обработчики событий
     setupOpenButton.addEventListener('click', openPopup);
     setupOpenButton.addEventListener('keydown', openPopupOnKeyDown);
+
+    window.setup.style.top = startPosition.y;
+    window.setup.style.left = startPosition.x;
   };
 
   // Обработчик события при клике на аватарку (кнопку)

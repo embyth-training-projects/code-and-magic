@@ -2,11 +2,10 @@
 
 (function () {
   // Элементы кастомизации персонажа
-  var setupWindow = document.querySelector('.setup');
-  var wizardElementSetup = setupWindow.querySelector('.setup-wizard');
+  var wizardElementSetup = window.setup.querySelector('.setup-wizard');
   var wizardCoat = wizardElementSetup.querySelector('.wizard-coat');
   var wizardEyes = wizardElementSetup.querySelector('.wizard-eyes');
-  var fireballElement = setupWindow.querySelector('.setup-fireball-wrap');
+  var fireballElement = window.setup.querySelector('.setup-fireball-wrap');
   var WIZARDS = window.CONSTANTS.WIZARDS_DATA;
 
   var makeCounter = function () {
@@ -34,17 +33,17 @@
       case wizardCoat:
         style = WIZARDS.COAT_COLORS[coatCounter(WIZARDS.COAT_COLORS)];
         attributesStyle.fill = style;
-        setupWindow.querySelector('[name="coat-color"]').value = style;
+        window.setup.querySelector('[name="coat-color"]').value = style;
         break;
       case wizardEyes:
         style = WIZARDS.EYES_COLORS[eyesCounter(WIZARDS.EYES_COLORS)];
         attributesStyle.fill = style;
-        setupWindow.querySelector('[name="eyes-color"]').value = style;
+        window.setup.querySelector('[name="eyes-color"]').value = style;
         break;
       case fireballElement:
         style = WIZARDS.FIREBALL_COLORS[fireballCounter(WIZARDS.FIREBALL_COLORS)];
         attributesStyle.background = style;
-        setupWindow.querySelector('[name="fireball-color"]').value = style;
+        window.setup.querySelector('[name="fireball-color"]').value = style;
         break;
     }
   };

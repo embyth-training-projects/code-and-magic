@@ -22,7 +22,7 @@ gulp.task('scripts', function () {
   return pipeline(
     gulp.src('./js/**/*.js'),
     newer('./build/js/'),
-    concat('game.js'),
+    // concat('game.js'),
     gulpif(isProd, uglify()),
     gulpif(isProd, rename({ suffix: '.min' }),
     ),

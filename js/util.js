@@ -90,6 +90,19 @@
       if (evt.keyCode === window.CONSTANTS.KEYCODES.ENTER) {
         action();
       }
+    },
+    // Счётчик
+    makeCounter: function () {
+      var count = 1;
+
+      return function (array) {
+        if (count >= array.length) {
+          count = 0;
+          return count++;
+        } else {
+          return count++;
+        }
+      };
     }
   };
 })();

@@ -39,6 +39,8 @@
     setupCloseButton.addEventListener('click', closePopup);
     setupCloseButton.addEventListener('keydown', closePopupOnKeyDown);
     dialogHandle.addEventListener('mousedown', window.moveSetupWindow);
+
+    window.addDragAndDropEvents();
   };
 
   // Закрывашка окна
@@ -57,6 +59,8 @@
 
     window.setup.style.top = startPosition.y;
     window.setup.style.left = startPosition.x;
+
+    window.removeDragAndDropEvents();
   };
 
   // Обработчик события при клике на аватарку (кнопку)

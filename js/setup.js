@@ -3,6 +3,7 @@
 (function () {
   window.setup = document.querySelector('.setup');
   // Заносим элементы в переменные
+  var setupWizardForm = window.setup.querySelector('.setup-wizard-form');
   var setupOpenButton = document.querySelector('.setup-open');
   var setupCloseButton = window.setup.querySelector('.setup-close');
   var setupNameInput = document.querySelector('.setup-user-name');
@@ -27,6 +28,12 @@
     window.util.isEnterKey(evt, openPopup);
   };
 
+  // Отпрака данных на сервер при сабмите формы
+  var submitForm = function (evt) {
+    evt.preventDefault();
+    window.backend.save(new FormData(setupWizardForm), closePopup, window.util.showError);
+  };
+
   // Открывашка окна
   var openPopup = function () {
     window.setup.classList.remove('hidden');
@@ -39,6 +46,7 @@
     setupCloseButton.addEventListener('click', closePopup);
     setupCloseButton.addEventListener('keydown', closePopupOnKeyDown);
     dialogHandle.addEventListener('mousedown', window.moveSetupWindow);
+    setupWizardForm.addEventListener('submit', submitForm);
 
     window.addDragAndDropEvents();
   };
@@ -52,6 +60,7 @@
     setupCloseButton.removeEventListener('click', closePopup);
     setupCloseButton.removeEventListener('keydown', closePopupOnKeyDown);
     dialogHandle.removeEventListener('mousedown', window.moveSetupWindow);
+    setupWizardForm.removeEventListener('submit', submitForm);
 
     // Добавляем обработчики событий
     setupOpenButton.addEventListener('click', openPopup);

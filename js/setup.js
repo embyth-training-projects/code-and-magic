@@ -14,28 +14,28 @@
   };
 
   // Закрыть окно при нажатии кнопки Enter
-  var closePopupOnKeyDown = function (evt) {
+  function closePopupOnKeyDown(evt) {
     window.util.isEnterKey(evt, closePopup);
-  };
+  }
 
   // Закрыть окно при нажатии кнопки Esc
-  var closePopupOnPressEsc = function (evt) {
+  function closePopupOnPressEsc(evt) {
     window.util.isEscKey(evt, closePopup);
-  };
+  }
 
   // Открыть окно при нажатии кнопки Enter
-  var openPopupOnKeyDown = function (evt) {
+  function openPopupOnKeyDown(evt) {
     window.util.isEnterKey(evt, openPopup);
-  };
+  }
 
   // Отпрака данных на сервер при сабмите формы
-  var submitForm = function (evt) {
+  function submitFormHandler(evt) {
     evt.preventDefault();
     window.backend.save(new FormData(setupWizardForm), closePopup, window.util.showError);
-  };
+  }
 
   // Открывашка окна
-  var openPopup = function () {
+  function openPopup() {
     window.setup.classList.remove('hidden');
 
     // Удаляем обработчики событий
@@ -46,13 +46,13 @@
     setupCloseButton.addEventListener('click', closePopup);
     setupCloseButton.addEventListener('keydown', closePopupOnKeyDown);
     dialogHandle.addEventListener('mousedown', window.moveSetupWindow);
-    setupWizardForm.addEventListener('submit', submitForm);
+    setupWizardForm.addEventListener('submit', submitFormHandler);
 
     window.addDragAndDropEvents();
-  };
+  }
 
   // Закрывашка окна
-  var closePopup = function () {
+  function closePopup() {
     window.setup.classList.add('hidden');
 
     // Удаляем обработчики событий
@@ -60,7 +60,7 @@
     setupCloseButton.removeEventListener('click', closePopup);
     setupCloseButton.removeEventListener('keydown', closePopupOnKeyDown);
     dialogHandle.removeEventListener('mousedown', window.moveSetupWindow);
-    setupWizardForm.removeEventListener('submit', submitForm);
+    setupWizardForm.removeEventListener('submit', submitFormHandler);
 
     // Добавляем обработчики событий
     setupOpenButton.addEventListener('click', openPopup);
@@ -70,7 +70,7 @@
     window.setup.style.left = startPosition.x;
 
     window.removeDragAndDropEvents();
-  };
+  }
 
   // Обработчик события при клике на аватарку (кнопку)
   setupOpenButton.addEventListener('click', openPopup);

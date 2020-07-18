@@ -21,11 +21,13 @@
         style = WIZARDS.COAT_COLORS[coatCounter(WIZARDS.COAT_COLORS)];
         attributesStyle.fill = style;
         window.setup.querySelector('[name="coat-color"]').value = style;
+        window.debounce(window.updateWizards);
         break;
       case wizardEyes:
         style = WIZARDS.EYES_COLORS[eyesCounter(WIZARDS.EYES_COLORS)];
         attributesStyle.fill = style;
         window.setup.querySelector('[name="eyes-color"]').value = style;
+        window.debounce(window.updateWizards);
         break;
       case fireballElement:
         style = WIZARDS.FIREBALL_COLORS[fireballCounter(WIZARDS.FIREBALL_COLORS)];

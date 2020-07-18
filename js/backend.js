@@ -1,5 +1,6 @@
 'use strict';
 
+// AJAX
 (function () {
   var URL_SAVE = 'https://javascript.pages.academy/code-and-magick';
   var URL_LOAD = URL_SAVE + '/data';

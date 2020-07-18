@@ -7,7 +7,7 @@
   var CLOUD_X = 140;
   var CLOUD_Y = 10;
   var CLOUD_CURVE = 15;
-  var GAP = 10;
+  var SHADOW_OFFSET = 10;
 
   var FONT_GAP = 30;
   var LINE_HEIGHT_COEF = 1.2;
@@ -29,8 +29,13 @@
 
   var lineHeight = Math.ceil(fontStyles.fontSize * LINE_HEIGHT_COEF);
 
+  // Получаем строку HSL
+  function getHSL(hue, saturation, lightness) {
+    return 'hsl(' + hue + ', ' + saturation + '%, ' + lightness + '%)';
+  }
+
   // Отрисовываем окошко (облако)
-  var renderCloud = function (ctx, x, y, fillColor, strokeColor) {
+  function renderCloud(ctx, x, y, fillColor, strokeColor) {
     ctx.beginPath();
     ctx.moveTo(x, y);
     ctx.lineTo(x + (CLOUD_WIDTH / 2), y + CLOUD_CURVE);
@@ -45,44 +50,36 @@
     ctx.fill();
     ctx.strokeStyle = strokeColor;
     ctx.stroke();
-  };
+  }
 
   // Отрисовывем текст
-  var renderText = function (ctx, text, x, y, font) {
+  function renderText(ctx, text, x, y, font) {
     ctx.font = font.fontSize + 'px ' + font.fontFamily;
     ctx.fillStyle = font.color;
     ctx.textBaseline = 'hanging';
     ctx.fillText(text, x, y);
-  };
+  }
 
   // Отрисовываем полоску с гистограммы
-  var renderBar = function (ctx, barNumber, name, time, maxTime) {
+  function renderBar(ctx, barNumber, name, time, maxTime) {
     var maxBarHeight = BAR_MAX_HEIGHT - lineHeight;
+    var barHeight = Math.ceil(maxBarHeight * time / maxTime);
     var barX = CLOUD_X + BAR_GAP + (BAR_GAP + BAR_WIDTH) * barNumber;
-    var barY = Math.ceil(maxBarHeight * time / maxTime);
-    var barTop = CLOUD_HEIGHT - barY - lineHeight * 2;
+    var barY = CLOUD_HEIGHT - barHeight - lineHeight * 2;
+
+    var nameX = barX;
     var nameY = CLOUD_HEIGHT - FONT_GAP;
 
-    var color;
-    if (name === 'Вы') { // Если имя игрока 'Bы' заливаем колонку гистограммы красным цветом
-      color = 'rgba(255, 0, 0, 1)';
-    } else { // В ином случае любым оттенком синего
-      var h = 240;
-      var s = Math.floor(Math.random() * 100);
-      var l = 50;
-      color = 'hsl(' + h + ', ' + s + '%, ' + l + '%)';
-    }
+    ctx.fillStyle = (name === 'Вы') ? 'rgba(255, 0, 0, 1)' : getHSL(240, Math.floor(Math.random() * 100), 50);
+    ctx.fillRect(barX, barY, BAR_WIDTH, barHeight);
 
-    ctx.fillStyle = color;
-    ctx.fillRect(barX, barTop, BAR_WIDTH, barY);
-
-    renderText(ctx, Math.round(time), barX, barTop - lineHeight, fontStyles); // Рисуем счет игрока
-    renderText(ctx, name, barX, nameY, fontStyles); // Рисуем имя игрока
-  };
+    renderText(ctx, Math.round(time), barX, barY - lineHeight, fontStyles); // Рисуем счет игрока
+    renderText(ctx, name, nameX, nameY, fontStyles); // Рисуем имя игрока
+  }
 
   // Отрисовываем окно со статистикой
   window.renderStatistics = function (ctx, names, times) {
-    renderCloud(ctx, CLOUD_X + GAP, CLOUD_Y + GAP, 'rgba(0, 0, 0, 0.7)', 'transparent'); // Отрисока тени
+    renderCloud(ctx, CLOUD_X + SHADOW_OFFSET, CLOUD_Y + SHADOW_OFFSET, 'rgba(0, 0, 0, 0.7)', 'transparent'); // Отрисока тени
     renderCloud(ctx, CLOUD_X, CLOUD_Y, '#fff', '#000'); // Отрисовка окна
 
     renderText(ctx, statisticsText[0], textX, textY, fontStyles); // Отрисовка первой строки текста

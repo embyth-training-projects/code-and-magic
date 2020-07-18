@@ -10,22 +10,35 @@
     VALUE_MISSING: 'Дайте имя вашему персонажу'
   };
 
-  // Обработчик события корректности данных ввода
-  setupNameInput.addEventListener('invalid', function () {
-    if (setupNameInput.validity.tooShort) {
-      setupNameInput.setCustomValidity(validityMessages.TOO_SHORT);
-    } else if (setupNameInput.validity.tooLong) {
-      setupNameInput.setCustomValidity(validityMessages.TOO_LONG);
-    } else if (setupNameInput.validity.valueMissing) {
-      setupNameInput.setCustomValidity(validityMessages.VALUE_MISSING);
+  function setupNameInvalidHandler(evt) {
+    var target = evt.target;
+
+    if (!target.validity.valid) {
+      if (target.validity.tooShort) {
+        target.setCustomValidity(validityMessages.TOO_SHORT);
+      } else if (target.validity.tooLong) {
+        target.setCustomValidity(validityMessages.TOO_LONG);
+      } else if (target.validity.valueMissing) {
+        target.setCustomValidity(validityMessages.VALUE_MISSING);
+      } else {
+        target.setCustomValidity('');
+      }
     } else {
       setupNameInput.setCustomValidity('');
     }
-  });
+  }
 
-  setupNameInput.addEventListener('input', function (evt) {
+  function setupNameInputHandler(evt) {
     var target = evt.target;
 
-    target.setCustomValidity('');
-  });
+    if (target.value.length < 2) {
+      target.setCustomValidity('Имя должно состоять минимум из 2-х символов');
+    } else {
+      target.setCustomValidity('');
+    }
+  }
+
+  // Обработчик события корректности данных ввода
+  setupNameInput.addEventListener('invalid', setupNameInvalidHandler);
+  setupNameInput.addEventListener('input', setupNameInputHandler);
 })();
